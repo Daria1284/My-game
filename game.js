@@ -160,4 +160,4 @@ function gameLoop() {
 }
 
 // Запуск гри при завантаженні сторінки
-startGame();
+startGame();   
