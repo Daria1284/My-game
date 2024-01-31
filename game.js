@@ -95,39 +95,66 @@ function checkCollisions() {
 }
 
 
+// Додайте змінну, яка вказуватиме, чи гра активна
+let isGameActive = true;
+
+// Функція, яка реагує на натискання клавіші Enter
+document.addEventListener('keydown', function(event) {
+    if (event.code === 'Enter') {
+        if (isGameActive) {
+            // Якщо гра активна, зупиніть гру
+            endGame();
+        } else {
+            // Якщо гра неактивна, почніть гру
+            startGame();
+        }
+    } else if (event.code === 'Space') {
+        // Якщо натиснута клавіша Space, і гра активна, виконайте стрибок
+        if (isGameActive) {
+            jump();
+        }
+    }
+});
+
+// Функція початку гри
+function startGame() {
+    isGameActive = true;
+
+    // Відновлення позицій та властивостей динозавра та перешкод
+    dino.y = canvas.height - 100;
+    cactus.x = canvas.width;
+
+    // Запуск головного циклу гри
+    gameLoop();
+}
+
 // Функція завершення гри
 function endGame() {
-    // Очистити екран гри
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    isGameActive = false;
 
+    // Очистити екран
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Вивести повідомлення про кінець гри
     ctx.fillStyle = 'black';
     ctx.font = '30px Arial';
-    ctx.fillText('Game Over', canvas.width / 2 - 100, canvas.height / 2);
-
-
-    // Зупинити головний цикл гри
-    cancelAnimationFrame(gameLoop);
+    ctx.fillText('Game Over)', canvas.width / 2 - 100, canvas.height / 2);
 }
-
 
 // Основна функція гри
 function gameLoop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (isGameActive) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+        dino.draw();
+        cactus.draw();
+        cactus.update();
 
-    dino.draw();
-    cactus.draw();
-    cactus.update();
+        checkCollisions(); // Перевірка колізій
 
-
-    checkCollisions(); // Перевірка колізій
-
-
-    requestAnimationFrame(gameLoop);
+        requestAnimationFrame(gameLoop);
+    }
 }
 
-
-// Запуск головного циклу гри
-gameLoop();
+// Запуск гри при завантаженні сторінки
+startGame();
