@@ -12,12 +12,12 @@ const cactusImg = new Image();
 cactusImg.src = 'assets/cactus.png';
 
 
-// Динозавр об'єкт
+// Динозавр 
 const dino = {
     x: 50,
-    y: canvas.height - 100,
-    width: 80,
-    height: 80,
+    y: canvas.height - 400,
+    width: 100,
+    height: 100,
     draw() {
         ctx.drawImage(dinoImg, this.x, this.y, this.width, this.height);
     }
@@ -66,20 +66,23 @@ document.addEventListener('keydown', function(event) {
 
 
 // Функція стрибка динозавра
+const JUMP_HEIGHT = 250; // Висота стрибка
+const JUMP_SPEED = 5; // Швидкість стрибка
+
 function jump() {
     if (dino.y === canvas.height - 100) {
         let jumpInterval = setInterval(function() {
-            if (dino.y === canvas.height - 200) {
+            if (dino.y === canvas.height - JUMP_HEIGHT) {
                 clearInterval(jumpInterval);
                 let fallInterval = setInterval(function() {
                     if (dino.y === canvas.height - 100) {
                         clearInterval(fallInterval);
                     } else {
-                        dino.y += 5;
+                        dino.y += JUMP_SPEED; // Змінено на позитивне значення для спуску
                     }
                 }, 20);
             } else {
-                dino.y -= 5;
+                dino.y -= JUMP_SPEED; // Змінено на від'ємне значення для стрибка вгору
             }
         }, 20);
     }
@@ -138,7 +141,7 @@ function endGame() {
     // Вивести повідомлення про кінець гри
     ctx.fillStyle = 'black';
     ctx.font = '30px Arial';
-    ctx.fillText('Game Over)', canvas.width / 2 - 100, canvas.height / 2);
+    ctx.fillText('Game Over)', canvas.width / 2 - 80, canvas.height / 2);
 }
 
 // Основна функція гри
