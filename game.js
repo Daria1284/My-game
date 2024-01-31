@@ -97,7 +97,7 @@ function checkCollisions() {
 
 // Функція завершення гри
 function endGame() {
-    // Очистити екран
+    // Очистити екран гри
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 
