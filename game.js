@@ -42,21 +42,6 @@ const cactus = {
     }
 };
 
-
-// Основна функція гри
-function gameLoop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-
-    dino.draw();
-    cactus.draw();
-    cactus.update();
-
-
-    requestAnimationFrame(gameLoop);
-}
-
-
 // Обробник натискання клавіш
 document.addEventListener('keydown', function(event) {
     if (event.code === 'Space') {
@@ -68,9 +53,11 @@ document.addEventListener('keydown', function(event) {
 // Функція стрибка динозавра
 const JUMP_HEIGHT = 250; // Висота стрибка
 const JUMP_SPEED = 5; // Швидкість стрибка
-
+let score = 0;
 function jump() {
     if (dino.y === canvas.height - 100) {
+        let jumpSound = document.getElementById('jumpSound');
+        jumpSound.play(); // Відтворення звуку при стрибку
         let jumpInterval = setInterval(function() {
             if (dino.y === canvas.height - JUMP_HEIGHT) {
                 clearInterval(jumpInterval);
@@ -86,7 +73,11 @@ function jump() {
             }
         }, 20);
     }
-}
+    
+        // Оновлення рахунку при успішному стрибку
+        score++;
+    }
+
 // Функція перевірки
 function checkCollisions() {
     if (dino.x < cactus.x + cactus.width &&
@@ -122,18 +113,27 @@ document.addEventListener('keydown', function(event) {
 // Функція початку гри
 function startGame() {
     isGameActive = true;
-
+    // Очистити рахунок при початку нової гри
+    score = 0;
+    
     // Відновлення позицій та властивостей динозавра та перешкод
     dino.y = canvas.height - 100;
     cactus.x = canvas.width;
 
     // Запуск головного циклу гри
     gameLoop();
+    // Виведення рахунку на екран
+    ctx.fillStyle = 'black';
+    ctx.font = '20px Arial';
+    ctx.fillText('Рахунок: ' + score, 20, 30);
 }
 
 // Функція завершення гри
 function endGame() {
     isGameActive = false;
+    // Відтворення звуку
+    let gameOverSound = document.getElementById('gameOverSound');
+    gameOverSound.play();
 
     // Очистити екран
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -141,7 +141,11 @@ function endGame() {
     // Вивести повідомлення про кінець гри
     ctx.fillStyle = 'black';
     ctx.font = '30px Arial';
-    ctx.fillText('Game Over)', canvas.width / 2 - 80, canvas.height / 2);
+    ctx.fillText('Game Over', canvas.width / 2 - 80, canvas.height / 2);
+    // Додати текст 
+    ctx.fillStyle = 'black';
+    ctx.font = '20px Arial';
+    ctx.fillText('Натисніть Enter для продовження', canvas.width / 2 - 80, canvas.height / 2 + 30);
 }
 
 // Основна функція гри
@@ -155,9 +159,14 @@ function gameLoop() {
 
         checkCollisions(); // Перевірка колізій
 
+        // Відображення рахунку
+        ctx.fillStyle = 'black';
+        ctx.font = '20px Arial';
+        ctx.fillText('Рахунок: ' + score, 20, 30); // Розміщення рахунку у верхньому лівому куті
+
         requestAnimationFrame(gameLoop);
     }
 }
 
 // Запуск гри при завантаженні сторінки
-startGame();   
+startGame();
