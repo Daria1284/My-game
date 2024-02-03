@@ -128,9 +128,10 @@ function startGame() {
     ctx.fillText('Рахунок: ' + score, 20, 30);
 }
 
-// Функція завершення гри
+//Завершення гри
 function endGame() {
     isGameActive = false;
+
     // Відтворення звуку
     let gameOverSound = document.getElementById('gameOverSound');
     gameOverSound.play();
