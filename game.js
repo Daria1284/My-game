@@ -22,7 +22,17 @@ const dino = {
         ctx.drawImage(dinoImg, this.x, this.y, this.width, this.height);
     }
 };
+// Земля об'єкт
+const ground = {
+    y: canvas.height - 30, // Змінена висота землі
+    height: 30,
+    color: 'green', // Колір землі
 
+    draw() {
+        ctx.fillStyle = this.color;
+        ctx.fillRect(0, this.y, canvas.width, this.height);
+    }
+};
 
 // Перешкоди об'єкт
 const cactus = {
@@ -153,7 +163,7 @@ function endGame() {
 function gameLoop() {
     if (isGameActive) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+        ground.draw();
         dino.draw();
         cactus.draw();
         cactus.update();
