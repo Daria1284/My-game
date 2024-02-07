@@ -135,7 +135,7 @@ function startGame() {
     // Виведення рахунку на екран
     ctx.fillStyle = 'black';
     ctx.font = '20px Arial';
-    ctx.fillText('Рахунок: ' + score, 20, 30);
+    ctx.fillText('Бали: ' + score, 20, 30);
 }
 
 //Завершення гри
